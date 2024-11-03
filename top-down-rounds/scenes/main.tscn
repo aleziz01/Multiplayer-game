@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://c04be1ck3o5df"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_42v5c"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_p7qvw"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+offset_left = -651.0
+offset_top = -370.0
+color = Color(0, 0, 1, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Background"]
+offset_top = -370.0
+offset_right = 651.0
+color = Color(1, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="Background"]
+offset_left = -651.0
+offset_bottom = 370.0
+color = Color(0, 1, 0, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="Background"]
+offset_right = 651.0
+offset_bottom = 370.0
+color = Color(0.95, 0, 1, 1)
+
+[node name="Collision" type="Node2D" parent="."]
+
+[node name="Down" type="StaticBody2D" parent="Collision"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Down"]
+position = Vector2(0, 360)
+shape = SubResource("WorldBoundaryShape2D_42v5c")
+
+[node name="Top" type="StaticBody2D" parent="Collision"]
+scale = Vector2(1, -1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Top"]
+position = Vector2(0, 360)
+shape = SubResource("WorldBoundaryShape2D_42v5c")
+
+[node name="Right" type="StaticBody2D" parent="Collision"]
+position = Vector2(640, 0)
+rotation = -1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Right"]
+shape = SubResource("WorldBoundaryShape2D_p7qvw")
+
+[node name="Left" type="StaticBody2D" parent="Collision"]
+position = Vector2(-640, 0)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Left"]
+shape = SubResource("WorldBoundaryShape2D_42v5c")
+
+[node name="Camera2D" type="Camera2D" parent="."]

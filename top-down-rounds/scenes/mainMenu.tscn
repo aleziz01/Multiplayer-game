@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5foiiievisiq"]
+
+[ext_resource type="Texture2D" uid="uid://gfgt0108d5cd" path="res://art/bean.png" id="1_3tfp8"]
+[ext_resource type="Texture2D" uid="uid://w8b2gya534r0" path="res://art/battles.png" id="2_q3dlw"]
+
+[node name="Node2D" type="Node2D"]
+texture_filter = 1
+
+[node name="Title" type="Sprite2D" parent="."]
+z_index = 1
+texture_filter = 1
+position = Vector2(-112.03, -148.675)
+texture = ExtResource("1_3tfp8")
+
+[node name="Title2" type="Sprite2D" parent="Title"]
+position = Vector2(149.03, 110.265)
+texture = ExtResource("2_q3dlw")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -646.0
+offset_top = -367.0
+offset_right = 646.0
+offset_bottom = 367.0
+color = Color(0.156863, 0, 1, 1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Connect" type="TextureButton" parent="."]
+offset_left = -131.0
+offset_top = 143.0
+offset_right = 133.0
+offset_bottom = 183.0
+
+[node name="Exit" type="TextureButton" parent="."]
+offset_top = 234.205
+offset_right = 40.0
+offset_bottom = 274.205
