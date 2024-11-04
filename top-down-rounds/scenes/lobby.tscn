@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://553fxx4pgj8n"]
+
+[ext_resource type="Script" path="res://scripts/lobby.gd" id="1_arykj"]
+[ext_resource type="PackedScene" uid="uid://j8jsoul0n530" path="res://scenes/bean.tscn" id="2_v5cnw"]
+
+[node name="Lobby" type="Node2D"]
+script = ExtResource("1_arykj")
+playerscene = ExtResource("2_v5cnw")
+
+[node name="Network" type="Node" parent="."]
+
+[node name="Host" type="Button" parent="."]
+offset_left = -603.0
+offset_top = 176.0
+offset_right = -559.0
+offset_bottom = 207.0
+text = "Host"
+
+[node name="Connect" type="Button" parent="."]
+offset_left = -603.0
+offset_top = 213.0
+offset_right = -531.0
+offset_bottom = 244.0
+text = "Connect"
+
+[node name="LeaveParty" type="Button" parent="."]
+offset_left = -605.0
+offset_top = 248.0
+offset_right = -506.0
+offset_bottom = 279.0
+text = "Leave Party"
+
+[node name="Back" type="Button" parent="."]
+offset_left = -596.0
+offset_top = 285.0
+offset_right = -551.0
+offset_bottom = 316.0
+text = "Back"
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scenes/bean.tscn")
+spawn_path = NodePath("../Network")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[connection signal="pressed" from="Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="Connect" to="." method="_on_connect_pressed"]
+[connection signal="pressed" from="LeaveParty" to="." method="_on_leave_party_pressed"]
+[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
