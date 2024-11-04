@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://c04be1ck3o5df"]
+[gd_scene load_steps=4 format=3 uid="uid://c04be1ck3o5df"]
+
+[ext_resource type="PackedScene" uid="uid://j8jsoul0n530" path="res://scenes/bean.tscn" id="1_avpeu"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_42v5c"]
 
@@ -58,3 +60,5 @@ rotation = 1.5708
 shape = SubResource("WorldBoundaryShape2D_42v5c")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("1_avpeu")]
