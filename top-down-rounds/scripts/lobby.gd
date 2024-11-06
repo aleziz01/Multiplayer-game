@@ -1,44 +1,93 @@
 extends Node2D
 
-var peer = ENetMultiplayerPeer.new()
+@export var port=8910
+var peer
+@onready var Name: LineEdit = $ConnectGUI/Name
+@onready var ip: LineEdit = $ConnectGUI/Ip
+@onready var connect_gui: Node2D = $ConnectGUI
 
-@export var playerscene: PackedScene
+func _ready() -> void:
+	multiplayer.peer_connected.connect(playerConnected)
+	multiplayer.peer_disconnected.connect(playerDisconnected)
+	multiplayer.connected_to_server.connect(connectedToServer)
+	multiplayer.connection_failed.connect(connectionFailed)
 
-@onready var network: Node = $Network
+func playerConnected(id):
+	print("Player " + str(id) + " connected")
 
-func _on_host_pressed() -> void:
-	peer.create_server(135)
-	multiplayer.multiplayer_peer = peer
-	multiplayer.peer_connected.connect(add_player)
-	add_player()
+func playerDisconnected(id):
+	print("Player " + str(id) + " disconnected")
+	if id==1:
+		goBack.rpc()
+		return
+	global.players.erase(id)
+	var players = get_tree().get_nodes_in_group("player")
+	for i in players:
+		if i.name == str(id):
+			i.queue_free()
 
-func add_player(id=1):
-	var player=playerscene.instantiate()
-	player.name=str(id)
-	network.call_deferred("add_child",player)
-
-func _on_connect_pressed() -> void:
-	peer.create_client("localhost",135)
-	multiplayer.multiplayer_peer = peer
-
-func _on_leave_party_pressed() -> void:
-	if not multiplayer.is_server() and network.get_child_count()>0:
-		rpc("LeftParty")
-		await get_tree().create_timer(0.01).timeout
-		multiplayer.multiplayer_peer.disconnect_peer(1)
+func connectedToServer():
+	print("Connected")
+	sendPlayerInfo.rpc_id(1, Name.text, multiplayer.get_unique_id())
 
 @rpc("any_peer")
-func LeftParty():
-	for i in network.get_child_count():
-		if network.get_child(i).name==str(multiplayer.get_remote_sender_id()):
-			network.get_child(i).dead=true
-			get_child_or_null(network,i).queue_free()
+func sendPlayerInfo(theName,id):
+	if !global.players.has(id):
+		global.players[id]={
+			"name": theName,
+			"id":id,
+			"rank":0
+		}
+	if multiplayer.is_server():
+		for i in global.players:
+			sendPlayerInfo.rpc(global.players[i].name,i)
 
-func get_child_or_null(node,index:int):
-	if node.get_child(index)==null:
+func connectionFailed():
+	print("Connection failed")
+
+func _on_host_pressed() -> void:
+	peer = ENetMultiplayerPeer.new()
+	var error=peer.create_server(port,4)
+	if error!=OK:
+		print("cannot host: " + str(error))
 		return
-	else:
-		return node.get_child(index)
+	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER) #for a longer range
+	multiplayer.set_multiplayer_peer(peer)
+	sendPlayerInfo(Name.text, multiplayer.get_unique_id())
+
+func _on_connect_to_server_pressed() -> void:
+	peer = ENetMultiplayerPeer.new()
+	peer.create_client(ip.text, port)
+	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
+	multiplayer.multiplayer_peer = peer
+
+@rpc("any_peer","call_local")
+func startGame():
+	var mainScene=load("res://scenes/main.tscn").instantiate()
+	get_tree().root.add_child(mainScene)
+	hide()
+
+func _on_start_game_pressed() -> void:
+	startGame.rpc()
+
+func _on_connect_pressed() -> void:
+	connect_gui.visible=!connect_gui.visible
+
+func _on_leave_party_pressed() -> void:
+	leaveParty.rpc(peer.get_unique_id())
+
+@rpc("any_peer","call_local")
+func leaveParty(id):
+	if multiplayer.is_server():
+		peer.disconnect_peer(id)
+
+@rpc("any_peer","call_local")
+func goBack():
+	global.players.clear()
+	var players = get_tree().get_nodes_in_group("player")
+	for i in players:
+		i.queue_free()
+	get_tree().change_scene_to_file("res://scenes/mainMenu.tscn")
 
 func _on_back_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/mainMenu.tscn")

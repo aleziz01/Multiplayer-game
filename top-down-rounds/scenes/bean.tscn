@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://j8jsoul0n530"]
+[gd_scene load_steps=4 format=3 uid="uid://j8jsoul0n530"]
 
 [ext_resource type="Script" path="res://scripts/bean.gd" id="1_6cx65"]
-[ext_resource type="Texture2D" uid="uid://mwt2hhghtxgd" path="res://art/Playerr.png" id="1_7nfms"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v6mty"]
 radius = 16.0
@@ -14,22 +13,25 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:collision_mask")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+properties/2/path = NodePath(".:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["player"]]
+z_index = 10
 script = ExtResource("1_6cx65")
+
+[node name="BodyParts" type="Node2D" parent="."]
+
+[node name="Body" type="Polygon2D" parent="BodyParts"]
+polygon = PackedVector2Array(0, -32, 15, -21, 16, 0, 15, 22, 0, 32, -14, 23, -16, 0, -14, -24)
+
+[node name="Head" type="Polygon2D" parent="BodyParts"]
+color = Color(0, 0, 0.686275, 1)
+polygon = PackedVector2Array(-9, -9, 7, -9, 7, 8, -8, 8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_v6mty")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture_filter = 1
-texture = ExtResource("1_7nfms")
-
-[node name="Name" type="RichTextLabel" parent="."]
-offset_left = -7.0
-offset_top = -54.0
-offset_right = 33.0
-offset_bottom = -31.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_sxpu0")
