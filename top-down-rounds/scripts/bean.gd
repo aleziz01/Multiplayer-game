@@ -30,6 +30,7 @@ func Shoot():
 		bulletInstance.global_position=global_position
 		bulletInstance.rotation=rotation
 		bulletInstance.parent=self
+		bulletInstance.get_child(0).set_multiplayer_authority(str(name).to_int())
 		parent.add_child(bulletInstance,true)
 
 var hp=4
