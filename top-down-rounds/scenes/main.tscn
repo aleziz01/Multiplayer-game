@@ -78,3 +78,8 @@ shape = SubResource("WorldBoundaryShape2D_42v5c")
 _spawnable_scenes = PackedStringArray("res://scenes/bean.tscn")
 spawn_path = NodePath("../Players")
 spawn_limit = 4
+
+[node name="MultiplayerSpawner2" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scenes/bullet.tscn")
+spawn_path = NodePath("../Players")
+spawn_limit = 1000

@@ -24,11 +24,13 @@ func _input(_event: InputEvent) -> void:
 var bullet=preload("res://scenes/bullet.tscn")
 
 func Shoot():
-	var bulletInstance=bullet.instantiate()
-	bulletInstance.dir=Vector2(cos(rotation),sin(rotation))
-	bulletInstance.global_position=global_position
-	bulletInstance.rotation=rotation
-	parent.add_child(bulletInstance,true)
+	if multiplayer_synchronizer.get_multiplayer_authority()==multiplayer.get_unique_id():
+		var bulletInstance=bullet.instantiate()
+		bulletInstance.dir=Vector2(cos(rotation),sin(rotation))
+		bulletInstance.global_position=global_position
+		bulletInstance.rotation=rotation
+		bulletInstance.parent=self
+		parent.add_child(bulletInstance,true)
 
 var hp=4
 func takeDamage():

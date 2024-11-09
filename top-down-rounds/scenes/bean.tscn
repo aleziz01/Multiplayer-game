@@ -33,7 +33,3 @@ shape = SubResource("CapsuleShape2D_v6mty")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_sxpu0")
 visibility_update_mode = 1
-
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://scenes/bullet.tscn")
-spawn_path = NodePath("..")
