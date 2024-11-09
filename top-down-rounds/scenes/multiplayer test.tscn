@@ -10,10 +10,10 @@ playerscene = ExtResource("2_4sdsa")
 [node name="Node" type="Node" parent="."]
 
 [node name="Host" type="Button" parent="."]
-offset_left = 17.0
-offset_top = 677.0
-offset_right = 60.0
-offset_bottom = 708.0
+offset_left = -612.0
+offset_top = 303.0
+offset_right = -569.0
+offset_bottom = 334.0
 text = "host"
 
 [node name="Connect" type="Button" parent="."]
@@ -24,10 +24,10 @@ offset_bottom = 291.0
 text = "join"
 
 [node name="ChangeScenes" type="Button" parent="."]
-offset_left = 69.0
-offset_top = 676.0
-offset_right = 188.0
-offset_bottom = 707.0
+offset_left = -555.0
+offset_top = 302.0
+offset_right = -436.0
+offset_bottom = 333.0
 text = "ChangeScenes"
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]

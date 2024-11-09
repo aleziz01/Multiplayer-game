@@ -18,6 +18,5 @@ func _on_connect_pressed() -> void:
 	peer.create_client("localhost",135)
 	multiplayer.multiplayer_peer = peer
 
-
 func _on_change_scenes_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
